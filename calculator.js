@@ -92,7 +92,7 @@ function divide(num1, num2){
 	return num1 / num2;
 	}
 	else {
-	 return "Nice try";
+	 display.textContent = "Nice try";
 	}
 }
 
