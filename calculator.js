@@ -28,8 +28,13 @@ const keyboard = {
 	"period": ".",
 }
 
-calculator.addEventListener("click", function(e){
+calculator.addEventListener("click", calculate);
+
+function calculate(){
 		if(event.target.className == "number"&&!operation){
+			if (event.target.id == "period"&&number1.includes(".")){
+				return;
+			}
 		number1 += keyboard[event.target.id].toString();
 		display.textContent = number1;
 		}
@@ -39,34 +44,30 @@ calculator.addEventListener("click", function(e){
 		}
 
 		if(number1&&operation&&event.target.className == "number"){
+			if (event.target.id == "period"&&number2.includes(".")){
+				return;
+			}
 		number2 += keyboard[event.target.id].toString();
 		display.textContent = number1 + " " + operation + " " + number2;
 		}
 
-		if(event.target.id== "equal"&&number1&&number2&&operation){
+		if((event.target.id== "equal"||event.target.className == "operator")&&number1&&number2&&operation){
 			number1 = parseFloat(number1);
 			number2 = parseFloat(number2);
 			let answer = operate(operation, number1, number2);
 			display.textContent = answer.toFixed(2);
 			clear();
-			number1 = answer;
-		}
-			
-		if(event.target.className == "operator"&&number1&&number2&&operation){
-			number1 = parseFloat(number1);
-			number2 = parseFloat(number2);
-			let answer = operate(operation, number1, number2);
-			display.textContent = answer.toFixed(2);
-			clear();
-			number1 = answer;
-			operation = keyboard[event.target.id]; 
+			number1 = answer.toString();
+				if(event.target.className == "operator"){
+					operation = keyboard[event.target.id]; 
+				}
 		}
 		
 		if(event.target.id=="clear"){
 			clear();
 			display.textContent = "";
 		}
-});
+}
 
 function clear(){
 	number1 = "";
